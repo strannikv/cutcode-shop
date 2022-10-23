@@ -3,6 +3,7 @@
 namespace App\Services\Telegram;
 
 use App\Exceptions\TelegramLogException;
+use App\Services\Telegram\Exceptions\TelegramBotApiException;
 use Illuminate\Support\Facades\Http;
 
 class TelegramBotApi
@@ -15,11 +16,13 @@ class TelegramBotApi
             $response = Http::get(self::HOST.$token.'/sendMessage', [
                 'chat_id' => $chatId,
                 'text' => $text,
-            ]);
+            ])->throw()->json();
 
-            return $response->status() == 200;
-        } catch (TelegramLogException $e) {
-            return $e->getMessage();
+            return $response['ok'] ?? false;
+        } catch (\Throwable $e) {
+           report(new TelegramBotApiException($e->getMessage()));
+
+           return false;
         }
     }
 
