@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->string('title');
             $table->string('thumbnail')->nullable();
             $table->timestamps();
@@ -24,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //todo  3 lesson
         if (app()->isLocal()) {
             Schema::dropIfExists('brands');
         }
