@@ -2,7 +2,7 @@
     <h1 class="mb-5 text-lg font-semibold">
         {{ $title }}
     </h1>
-    <form class="space-y-3">
+    <form class="space-y-3" action="{{ $action }}">
         {{ $slot }}
     </form>
 
