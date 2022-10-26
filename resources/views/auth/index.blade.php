@@ -49,7 +49,7 @@
                <div class="text-xxs md:text-xs"><a href="lost-password.html"
                                                    class="text-white hover:text-white/70 font-bold">Забыли пароль?</a>
                </div>
-               <div class="text-xxs md:text-xs"><a href="register.html"
+               <div class="text-xxs md:text-xs"><a href="{{ route('signUp') }}"
                                                    class="text-white hover:text-white/70 font-bold">Регистрация</a>
                </div>
            </div>
