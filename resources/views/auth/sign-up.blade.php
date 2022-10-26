@@ -4,7 +4,10 @@
 
 @section('content')
 
-   <x-forms.auth-forms title="Регистрация">
+   <x-forms.auth-forms
+       title="Регистрация"
+       method="POST"
+   >
        @csrf
 
        <x-forms.text-input
@@ -12,6 +15,7 @@
            type="text"
            placeholder="Имя"
            required="true"
+           value="{{ old('name') }}"
            :is-error="$errors->has('name')"
        />
 
@@ -20,6 +24,7 @@
            type="email"
            placeholder="E-mail"
            required="true"
+           value="{{ old('email') }}"
            :is-error="$errors->has('email')"
        />
 

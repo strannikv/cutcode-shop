@@ -4,7 +4,11 @@
 
 @section('content')
 
-   <x-forms.auth-forms title="Восстановление пароля" action="">
+   <x-forms.auth-forms
+       title="Восстановление пароля"
+       method="POST"
+       action=""
+   >
        @csrf
 
        <x-forms.text-input
@@ -12,6 +16,7 @@
            type="email"
            placeholder="E-mail"
            required="true"
+           value="{{ old('email') }}"
            :is-error="$errors->has('email')"
        />
 
