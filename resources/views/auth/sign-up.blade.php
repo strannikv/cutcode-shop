@@ -7,6 +7,7 @@
    <x-forms.auth-forms
        title="Регистрация"
        method="POST"
+       action="{{ route('store') }}"
    >
        @csrf
 
