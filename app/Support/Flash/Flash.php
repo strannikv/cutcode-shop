@@ -16,25 +16,38 @@ class Flash
     }
 
 
-    public function get(): FlashMessage
+    public function get(): ?FlashMessage
     {
+        $message = $this->session->get(self::MESSAGE_KEY);
 
+        if (!$message) {
+            return null;
+        }
+
+        return new FlashMessage(
+            $message,
+            $this->session->get(self::MESSAGE_CLAS_KEY, ''),
+        );
     }
 
 
-    public function info(string $message)
+    public function info(string $message): void
+    {
+        $this->flash($message, 'info');
+    }
+
+
+    public function alert(string $message): void
+    {
+        $this->flash($message, 'alert');
+    }
+
+
+    private function flash(string $message, string $name): void
     {
         $this->session->flash(self::MESSAGE_KEY, $message);
-        $this->session->flash(self::MESSAGE_CLAS_KEY, 'bg-purple text-center text-white');
+        $this->session->flash(self::MESSAGE_CLAS_KEY, config("flash.$name", ''));
     }
-
-
-    public function alert(string $message)
-    {
-
-    }
-
-
 
 
 }
