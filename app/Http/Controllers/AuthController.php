@@ -21,6 +21,9 @@ class AuthController extends Controller
 {
     public function index()
     {
+        flash()->info('test');
+        return redirect()->route('home');
+
         return view('auth.index');
     }
 
@@ -33,7 +36,6 @@ class AuthController extends Controller
 
     public function signIn(SignInFormRequest $request)
     {
-        //todo 3 les Rate limit
         if (!auth()->attempt($request->validated())) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
@@ -88,7 +90,6 @@ class AuthController extends Controller
             $request->only('email')
         );
 
-        //todo 3 les Flash
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['message' => __($status)])
             : back()->withErrors(['email' => __($status)]);
@@ -134,33 +135,14 @@ class AuthController extends Controller
     {
         $githubUser = Socialite::driver('github')->user();
 
-        //todo 3 les move to custom table
-
         $user = User::query()->updateOrCreate([
             'github_id' => $githubUser->id,
         ],
-        [
-            'name' => $githubUser->name,
-            'email' => $githubUser->email,
-            'password' => bcrypt(str()->random(20)),
-        ]);
-
-//        $user = User::where('github_id', $githubUser->id)->first();
-//
-//        if ($user) {
-//            $user->update([
-//                'github_token' => $githubUser->token,
-//                'github_refresh_token' => $githubUser->refreshToken,
-//            ]);
-//        } else {
-//            $user = User::create([
-//                'name' => $githubUser->name,
-//                'email' => $githubUser->email,
-//                'github_id' => $githubUser->id,
-//                'github_token' => $githubUser->token,
-//                'github_refresh_token' => $githubUser->refreshToken,
-//            ]);
-//        }
+            [
+                'name' => $githubUser->name,
+                'email' => $githubUser->email,
+                'password' => bcrypt(str()->random(20)),
+            ]);
 
         auth()->login($user);
 

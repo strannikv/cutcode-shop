@@ -34,7 +34,6 @@ return [
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        //todo 3 les
-        'redirect' => 'http://127.0.0.1:8001/auth/socialite/github/callback',
+        'redirect' => env('GITHUB_CLIENT_CALLBACK'),
     ],
 ];
