@@ -10,9 +10,11 @@ use App\Http\Requests\SignUpFormRequest;
 use App\Listeners\SendEmailNewUserListener;
 use App\Models\User;
 use App\Notifications\NewUserNotification;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Laravel\Socialite\Facades\Socialite;
@@ -164,35 +166,30 @@ class AuthControllerTest extends TestCase
     }
 
 
-//    public function test_reset_password_success()
-//    {
-//        $password = '123456789';
-//        $password2 = '123456789123';
-//        $token = str()->random(60);
-//
-//        $user = User::factory()->create([
-//            'email' => '12345@gmail.com',
-//            'password' => bcrypt($password),
-//        ]);
-//
-//        $request = ResetPasswordFormRequest::factory()->create([
-//            'token' => $token,
-//            'email' => $user->email,
-//            'password' => $password2,
-//        ]);
-//
-//        $response = $this->post(action([AuthController::class, 'resetPassword'], $request));
-//
-//        $response->assertValid();
-//
-//        $this->assertDatabaseHas('users', ['password' => bcrypt($password2)]);
-//
-//
-//
-//        $response->assertSessionHas('_old_input.token');
-//
-//
-//    }
+    public function test_reset_password_success()
+    {
+        User::factory()->create([
+            'email' => 'user@gmail.com',
+            'password' => Hash::make('oldpassword')
+        ]);
+
+        $token = Password::createToken(User::first());
+
+        Event::fake();
+
+        $request = [
+            'email' => 'user@gmail.com',
+            'password' => 'newpassword',
+            'password_confirmation' => 'newpassword',
+            'token' => $token
+        ];
+
+       $response = $this->post(action([AuthController::class, 'resetPassword'], $request));
+
+        $this->assertTrue(Hash::check('newpassword', User::first()->password));
+
+        Event::assertDispatched(PasswordReset::class);
+    }
 
 
 //    public function test_gitHub_success()
