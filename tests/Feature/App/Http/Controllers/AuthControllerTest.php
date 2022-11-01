@@ -4,6 +4,7 @@ namespace Tests\Feature\App\Http\Controllers;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Requests\ForgotPasswordFormRequest;
+use App\Http\Requests\ResetPasswordFormRequest;
 use App\Http\Requests\SignInFormRequest;
 use App\Http\Requests\SignUpFormRequest;
 use App\Listeners\SendEmailNewUserListener;
@@ -105,71 +106,6 @@ class AuthControllerTest extends TestCase
     }
 
 
-    public function test_forgot_success()
-    {
-        $response = $this->get(action([AuthController::class, 'forgot']));
-
-        $response->assertViewIs('auth.forgot-password');
-    }
-
-
-    public function test_forgot_password_success()
-    {
-//        Notification::fake();
-//        Event::fake();
-//
-//        $password = '123456789';
-//        $email = '12345@gmail.com';
-//
-//        $user = User::factory()->create([
-//            'email' => $email,
-//            'password' => bcrypt($password),
-//        ]);
-//
-//        $request = ForgotPasswordFormRequest::factory()->create([
-//            'email' => $email,
-//        ]);
-//
-//        $response = $this->post(
-//            action([AuthController::class, 'forgotPassword']),
-//            $request
-//        );
-//
-//        $response->assertValid();
-
-
-    }
-
-
-    public function test_reset_success()
-    {
-//        $token = '123';
-//
-//        $data = [
-//            'token' => $token
-//        ];
-//
-//        $response = $this->get(action([AuthController::class, 'reset']), $data);
-//
-//        $response->assertViewIs('auth.reset-password');
-    }
-
-
-    public function test_reset_password_success()
-    {
-    }
-
-
-    public function test_gitHub_success()
-    {
-    }
-
-
-    public function test_gitHub_callback_success()
-    {
-    }
-
-
     public function test_it_logout_success()
     {
         $user = User::factory()->create([
@@ -180,6 +116,96 @@ class AuthControllerTest extends TestCase
 
         $this->assertGuest();
     }
+
+
+    public function test_forgot_success()
+    {
+        $response = $this->get(action([AuthController::class, 'forgot']));
+
+        $response->assertViewIs('auth.forgot-password');
+    }
+
+
+    public function test_forgot_password_success()
+    {
+
+        $password = '123456789';
+        $email = '12345@gmail.com';
+
+        User::factory()->create([
+            'email' => $email,
+            'password' => bcrypt($password),
+        ]);
+
+        $request = ForgotPasswordFormRequest::factory()->create([
+            'email' => $email,
+        ]);
+
+        $response = $this->post(
+            action([AuthController::class, 'forgotPassword']),
+            $request
+        );
+
+        $response->assertValid();
+
+        $response->assertSessionHas('shop_flash_message', 'We have emailed your password reset link!');
+    }
+
+
+    public function test_reset_success()
+    {
+        $token = \Str::random(12);
+
+        $response = $this->get("/reset-password/$token");
+
+        $response->assertViewIs('auth.reset-password');
+
+        $response->assertSee($token);
+    }
+
+
+//    public function test_reset_password_success()
+//    {
+//        $password = '123456789';
+//        $password2 = '123456789123';
+//        $token = str()->random(60);
+//
+//        $user = User::factory()->create([
+//            'email' => '12345@gmail.com',
+//            'password' => bcrypt($password),
+//        ]);
+//
+//        $request = ResetPasswordFormRequest::factory()->create([
+//            'token' => $token,
+//            'email' => $user->email,
+//            'password' => $password2,
+//        ]);
+//
+//        $response = $this->post(action([AuthController::class, 'resetPassword'], $request));
+//
+//        $response->assertValid();
+//
+//        $this->assertDatabaseHas('users', ['password' => bcrypt($password2)]);
+//
+//
+//
+//        $response->assertSessionHas('_old_input.token');
+//
+//
+//    }
+
+
+//    public function test_gitHub_success()
+//    {
+//    }
+
+
+//    public function test_gitHub_callback_success()
+//    {
+//    }
+
+
+
 
 
     //todo ДЗ) - дописать тесты на методы что ещё не сделаны.
