@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Loging\Telegram;
+namespace Support\Loging\Telegram;
 
 use Monolog\Logger;
 

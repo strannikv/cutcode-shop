@@ -4,12 +4,11 @@ namespace Tests\Feature\App\Http\Controllers;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Requests\ForgotPasswordFormRequest;
-use App\Http\Requests\ResetPasswordFormRequest;
 use App\Http\Requests\SignInFormRequest;
 use App\Http\Requests\SignUpFormRequest;
 use App\Listeners\SendEmailNewUserListener;
-use App\Models\User;
 use App\Notifications\NewUserNotification;
+use Domain\Auth\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,8 +16,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
-use Laravel\Socialite\Facades\Socialite;
-use Tests\RequestFactories\SignUpFormRequestFactory;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
