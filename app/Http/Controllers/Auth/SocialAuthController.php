@@ -12,12 +12,16 @@ class SocialAuthController extends Controller
 
     public function redirect(string $driver)
     {
+        dd($driver);
+
         return Socialite::driver($driver)->redirect();
     }
 
 
     public function callback(string $driver)
     {
+
+
         $githubUser = Socialite::driver($driver)->user();
 
         $user = User::query()->updateOrCreate([

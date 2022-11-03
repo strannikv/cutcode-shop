@@ -50,17 +50,17 @@ class AuthRegistrar implements RouteRegistrar
                 ->middleware('guest')
                 ->name('password.update');
 
-            Route::get('/auth/socialite/github', [SocialAuthController::class,'redirect'])
+            Route::get('/auth/socialite/{driver}', [SocialAuthController::class,'redirect'])
                 ->name('socialite.github');
 
-            Route::get('/auth/callback', function () {
-                $user = Socialite::driver('github')->user();
+//            Route::get('/auth/callback/{driver}', function () {
+//                $user = Socialite::driver('github')->user();
+//
+//                // $user->token
+//            });
 
-                // $user->token
-            });
-
-            Route::get('/auth/socialite/github/callback', [SocialAuthController::class,'callback'])
-                ->name('socialite.github.callback');
+//            Route::get('/auth/socialite/github/callback', [SocialAuthController::class,'callback'])
+//                ->name('socialite.github.callback');
 
         });
     }
