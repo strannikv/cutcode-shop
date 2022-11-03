@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\App\Http\Controllers;
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\SignInController;
 use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\SignInFormRequest;
 use App\Http\Requests\SignUpFormRequest;
@@ -25,7 +25,7 @@ class AuthControllerTest extends TestCase
 
     public function test_it_login_page_success()
     {
-        $this->get(action([AuthController::class, 'index']))
+        $this->get(action([SignInController::class, 'index']))
             ->assertOk()
             ->assertSee('Вход в аккаунт')
             ->assertViewIs('auth.index');
@@ -34,7 +34,7 @@ class AuthControllerTest extends TestCase
 
     public function test_it_sign_up_page_success()
     {
-        $this->get(action([AuthController::class, 'signUp']))
+        $this->get(action([\App\Http\Controllers\Auth\SignInController::class, 'signUp']))
             ->assertOk()
             ->assertSee('Регистрация')
             ->assertViewIs('auth.sign-up');
@@ -55,7 +55,7 @@ class AuthControllerTest extends TestCase
             'password' => $password,
         ]);
 
-        $response = $this->post(action([AuthController::class, 'signIn'], $request));
+        $response = $this->post(action([\App\Http\Controllers\Auth\SignInController::class, 'signIn'], $request));
 
         $response->assertValid()
             ->assertRedirect(route('home'));
@@ -78,7 +78,7 @@ class AuthControllerTest extends TestCase
         $this->assertDatabaseMissing('users', ['email' => '12345678@gmail.com']);
 
         $response = $this->post(
-            action([AuthController::class, 'store']),
+            action([\App\Http\Controllers\Auth\SignInController::class, 'store']),
             $request
         );
 
@@ -111,7 +111,7 @@ class AuthControllerTest extends TestCase
             'email' => '12345@gmail.com',
         ]);
 
-        $this->actingAs($user)->delete(action([AuthController::class, 'logOut']));
+        $this->actingAs($user)->delete(action([\App\Http\Controllers\Auth\SignInController::class, 'logOut']));
 
         $this->assertGuest();
     }
@@ -119,7 +119,7 @@ class AuthControllerTest extends TestCase
 
     public function test_forgot_success()
     {
-        $response = $this->get(action([AuthController::class, 'forgot']));
+        $response = $this->get(action([\App\Http\Controllers\Auth\SignInController::class, 'forgot']));
 
         $response->assertViewIs('auth.forgot-password');
     }
@@ -141,7 +141,7 @@ class AuthControllerTest extends TestCase
         ]);
 
         $response = $this->post(
-            action([AuthController::class, 'forgotPassword']),
+            action([SignInController::class, 'forgotPassword']),
             $request
         );
 
@@ -181,7 +181,7 @@ class AuthControllerTest extends TestCase
             'token' => $token
         ];
 
-       $response = $this->post(action([AuthController::class, 'resetPassword'], $request));
+       $response = $this->post(action([\App\Http\Controllers\Auth\SignInController::class, 'resetPassword'], $request));
 
         $this->assertTrue(Hash::check('newpassword', User::first()->password));
 
@@ -206,7 +206,7 @@ class AuthControllerTest extends TestCase
 
     public function test_it_forgot_page_success()
     {
-        $this->get(action([AuthController::class, 'forgot']))
+        $this->get(action([\App\Http\Controllers\Auth\SignInController::class, 'forgot']))
             ->assertOk()
             ->assertSee('Забыли пароль?')
             ->assertViewIs('auth.forgot-password');
