@@ -10,58 +10,61 @@ use App\Http\Controllers\Auth\SignUpController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 class AuthRegistrar implements RouteRegistrar
 {
 
     public function map(Registrar $registrar)
     {
-        Route::middleware('web')->group(function() {
+        Route::middleware('web')->group(function () {
+            Route::controller(SignInController::class)->group(function () {
+                Route::get('/login', 'page')
+                    ->name('login');
 
-            Route::get('/login', [SignInController::class, 'page'])
-                ->name('login');
+                Route::post('/login', 'handle')
+                    ->middleware('throttle:auth')
+                    ->name('login.handle');
 
-            Route::post('/login', [SignInController::class, 'handle'])
-                ->middleware('throttle:auth')->name('signIn');
+                Route::delete('/logout', 'logOut')
+                    ->name('logOut');
+            });
 
-            Route::get('/sign-up', [SignUpController::class, 'page'])
-                ->name('signUp');
+            Route::controller(SignUpController::class)->group(function () {
+                Route::get('/sign-up', 'page')
+                    ->name('register');
 
-            Route::post('/sign-up', [SignUpController::class, 'handle'])->middleware('throttle:auth')
-                ->name('store');
+                Route::post('/sign-up', 'handle')
+                    ->middleware('throttle:auth')
+                    ->name('register.handle');
+            });
 
-            Route::delete('/logout', [SignInController::class, 'logOut'])
-                ->name('logOut');
+            Route::controller(ForgotPasswordController::class)->group(function () {
+                Route::get('/forgot-password', 'page')
+                    ->middleware('guest')
+                    ->name('forgot');
 
-            Route::get('/forgot-password', [ForgotPasswordController::class,'page'])
-//                ->middleware('guest')
-                ->name('password.request');
+                Route::post('/forgot-password', 'handle')
+                    ->middleware('guest')
+                    ->name('forgot.handle');
+            });
 
-            Route::post('/forgot-password', [ForgotPasswordController::class,'handle'])
-                ->middleware('guest')
-                ->name('password.email');
+            Route::controller(ResetPasswordController::class)->group(function () {
+                Route::get('/reset-password/{token}', 'page')
+                    ->middleware('guest')
+                    ->name('password-reset');
 
-            Route::get('/reset-password/{token}', [ResetPasswordController::class,'page'])
-                ->middleware('guest')
-                ->name('password.reset');
+                Route::post('/reset-password', 'handle')
+                    ->middleware('guest')
+                    ->name('password-reset.handle');
+            });
 
-            Route::post('/reset-password', [ResetPasswordController::class,'handle'])
-                ->middleware('guest')
-                ->name('password.update');
+            Route::controller(SocialAuthController::class)->group(function () {
+                Route::get('/auth/socialite/{driver}', 'redirect')
+                    ->name('socialite.redirect');
 
-            Route::get('/auth/socialite/{driver}', [SocialAuthController::class,'redirect'])
-                ->name('socialite.github');
-
-//            Route::get('/auth/callback/{driver}', function () {
-//                $user = Socialite::driver('github')->user();
-//
-//                // $user->token
-//            });
-
-//            Route::get('/auth/socialite/github/callback', [SocialAuthController::class,'callback'])
-//                ->name('socialite.github.callback');
-
+                Route::get('/auth/socialite/{driver}/callback', 'callback')
+                    ->name('socialite.callback');
+            });
         });
     }
 }

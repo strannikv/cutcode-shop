@@ -7,7 +7,7 @@
    <x-forms.auth-forms
        title="Забыли пароль?"
        method="POST"
-       action="{{ route('password.email') }}"
+       action="{{ route('forgot.handle') }}"
    >
        @csrf
 
@@ -32,7 +32,7 @@
 
        <x-slot:buttons>
            <div class="space-y-3 mt-5">
-               <div class="text-xxs md:text-xs"><a href="lost-password.html"
+               <div class="text-xxs md:text-xs"><a href="{{ route('forgot') }}"
                                                    class="text-white hover:text-white/70 font-bold">Забыли пароль?</a>
                </div>
                <div class="text-xxs md:text-xs"><a href="{{ route('login') }}"

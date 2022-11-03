@@ -7,7 +7,7 @@
    <x-forms.auth-forms
        title="Восстановление пароля"
        method="POST"
-       action="{{ route('password.update') }}"
+       action="{{ route('password-reset.handle') }}"
    >
        @csrf
 
