@@ -3,9 +3,9 @@
 namespace App\Routing;
 
 use App\Contracts\RouteRegistrar;
-use App\Http\Controllers\HomeController;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 class AppRegistrar implements RouteRegistrar
 {

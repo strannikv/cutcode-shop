@@ -4,7 +4,6 @@ namespace Domain\Auth\Routing;
 
 use App\Contracts\RouteRegistrar;
 use App\Http\Controllers\Auth\SignInController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
