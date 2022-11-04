@@ -3,6 +3,7 @@
 namespace Tests\Feature\App\Http\Controllers;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SignInController;
 use App\Http\Controllers\Auth\SignUpController;
 use App\Http\Requests\ForgotPasswordFormRequest;
@@ -58,8 +59,6 @@ class AuthControllerTest extends TestCase
         ]);
 
         $response = $this->post(action([SignInController::class, 'handle'], $request));
-
-        $response->dump();
 
         $response->assertValid()
             ->assertRedirect(route('home'));
@@ -145,13 +144,11 @@ class AuthControllerTest extends TestCase
         ]);
 
         $response = $this->post(
-            action([ForgotPasswordController::class, 'handle']),
+            action([ForgotPasswordController::class, 'page']),
             $request
         );
 
         $response->assertValid();
-
-        $response->dumpSession('shop_flash_message');
 
         $response->assertSessionHas('shop_flash_message', 'We have emailed your password reset link!');
     }
@@ -187,7 +184,7 @@ class AuthControllerTest extends TestCase
             'token' => $token
         ];
 
-       $response = $this->post(action([\App\Http\Controllers\Auth\SignInController::class, 'resetPassword'], $request));
+       $this->post(action([ResetPasswordController::class, 'handle'], $request));
 
         $this->assertTrue(Hash::check('newpassword', User::first()->password));
 
@@ -212,7 +209,7 @@ class AuthControllerTest extends TestCase
 
     public function test_it_forgot_page_success()
     {
-        $this->get(action([\App\Http\Controllers\Auth\SignInController::class, 'forgot']))
+        $this->get(action([ForgotPasswordController::class, 'page']))
             ->assertOk()
             ->assertSee('Забыли пароль?')
             ->assertViewIs('auth.forgot-password');
