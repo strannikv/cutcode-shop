@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\App\Http\Controllers;
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\SignInController;
 use App\Http\Controllers\Auth\SignUpController;
 use App\Http\Requests\ForgotPasswordFormRequest;
@@ -81,7 +82,7 @@ class AuthControllerTest extends TestCase
         $this->assertDatabaseMissing('users', ['email' => '12345678@gmail.com']);
 
         $response = $this->post(
-            action([\App\Http\Controllers\Auth\SignInController::class, 'store']),
+            action([SignUpController::class, 'handle']),
             $request
         );
 
@@ -114,7 +115,7 @@ class AuthControllerTest extends TestCase
             'email' => '12345@gmail.com',
         ]);
 
-        $this->actingAs($user)->delete(action([\App\Http\Controllers\Auth\SignInController::class, 'logOut']));
+        $this->actingAs($user)->delete(action([SignInController::class, 'logOut']));
 
         $this->assertGuest();
     }
@@ -122,7 +123,7 @@ class AuthControllerTest extends TestCase
 
     public function test_forgot_success()
     {
-        $response = $this->get(action([\App\Http\Controllers\Auth\SignInController::class, 'forgot']));
+        $response = $this->get(action([ForgotPasswordController::class, 'page']));
 
         $response->assertViewIs('auth.forgot-password');
     }
@@ -144,11 +145,13 @@ class AuthControllerTest extends TestCase
         ]);
 
         $response = $this->post(
-            action([SignInController::class, 'forgotPassword']),
+            action([ForgotPasswordController::class, 'handle']),
             $request
         );
 
         $response->assertValid();
+
+        $response->dumpSession('shop_flash_message');
 
         $response->assertSessionHas('shop_flash_message', 'We have emailed your password reset link!');
     }
