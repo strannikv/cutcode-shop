@@ -3,6 +3,7 @@
 namespace Tests\Feature\App\Http\Controllers;
 
 use App\Http\Controllers\Auth\SignInController;
+use App\Http\Controllers\Auth\SignUpController;
 use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\SignInFormRequest;
 use App\Http\Requests\SignUpFormRequest;
@@ -25,7 +26,7 @@ class AuthControllerTest extends TestCase
 
     public function test_it_login_page_success()
     {
-        $this->get(action([SignInController::class, 'index']))
+        $this->get(action([SignInController::class, 'page']))
             ->assertOk()
             ->assertSee('Вход в аккаунт')
             ->assertViewIs('auth.login');
@@ -34,7 +35,7 @@ class AuthControllerTest extends TestCase
 
     public function test_it_sign_up_page_success()
     {
-        $this->get(action([\App\Http\Controllers\Auth\SignInController::class, 'signUp']))
+        $this->get(action([SignUpController::class, 'handle']))
             ->assertOk()
             ->assertSee('Регистрация')
             ->assertViewIs('auth.sign-up');
@@ -55,7 +56,9 @@ class AuthControllerTest extends TestCase
             'password' => $password,
         ]);
 
-        $response = $this->post(action([\App\Http\Controllers\Auth\SignInController::class, 'signIn'], $request));
+        $response = $this->post(action([SignInController::class, 'handle'], $request));
+
+        $response->dump();
 
         $response->assertValid()
             ->assertRedirect(route('home'));
