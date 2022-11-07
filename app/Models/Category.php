@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Models\HasSlug;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +16,16 @@ class Category extends Model
     protected $fillable = [
         'slug',
         'title',
+        'sorting',
+        'on_home_page',
     ];
+
+    public function scopeHomePage(Builder $query)
+    {
+        $query->where('on_home_page', 1)
+            ->orderBy('sorting')
+            ->limit(6);
+    }
 
 
     public function products(): BelongsToMany
