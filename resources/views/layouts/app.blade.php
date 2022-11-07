@@ -6,10 +6,10 @@
 
     <title>@yield('title', env('APP_NAME'))</title>
 
-    @vite(['resources/css/app.css', b'resources/sass/main.sass', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/sass/main.sass', 'resources/js/app.js'])
 </head>
 <body class="antialiased">
-    @include('shared.flash')
+{{--    @include('shared.flash')--}}
 
     @include('shared.header')
     <main class="py-16 lg:py-20">
@@ -20,7 +20,7 @@
     @include('shared.footer')
 
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="./js/app.js"></script>
+    <script src="/js/app.js"></script>
 </body>
 </html>
 
