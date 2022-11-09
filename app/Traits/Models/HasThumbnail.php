@@ -13,7 +13,8 @@ trait HasThumbnail
         return route('thumbnail', [
             'size' => $size,
             'dir' => $this->thumbnailDir(),
-            'method' => $method,
+//            'method' => $method,
+            'method' => 'resize',
             'file' => File::basename($this->thumbnail),
         ]);
     }
