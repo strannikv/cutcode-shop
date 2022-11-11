@@ -13,6 +13,8 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        \Notification::fake();
+
         Http::preventStrayRequests();
     }
 }

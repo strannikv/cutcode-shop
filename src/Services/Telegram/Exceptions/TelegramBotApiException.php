@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Services\Telegram\Exceptions;
 
 use Exception;
 
-class TelegramBotApiException extends Exception
+final class TelegramBotApiException extends Exception
 {
 
 }
