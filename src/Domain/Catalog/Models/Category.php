@@ -15,12 +15,21 @@ class Category extends Model
     use HasFactory;
     use HasSlug;
 
+
+
     protected $fillable = [
         'slug',
         'title',
         'sorting',
         'on_home_page',
     ];
+
+
+    protected static function newFactory()
+    {
+        return CategoryFactory::new();
+    }
+
 
     public function scopeHomePage(Builder $query)
     {

@@ -3,6 +3,7 @@
 namespace Domain\Catalog\Models;
 
 use App\Models\Product;
+use Database\Factories\BrandFactory;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,11 @@ class Brand extends Model
     use HasSlug;
     use HasThumbnail;
 
+    protected static function newFactory()
+    {
+        return BrandFactory::new();
+    }
+
     protected $fillable = [
         'slug',
         'title',
@@ -23,6 +29,8 @@ class Brand extends Model
         'sorting',
         'on_home_page',
     ];
+
+
 
     public function scopeHomePage(Builder $query)
     {
