@@ -4,13 +4,16 @@ namespace Domain\Catalog\Models;
 
 use App\Models\Product;
 use Database\Factories\BrandFactory;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Domain\Catalog\QueryBuilders\BrandQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Support\Traits\Models\HasSlug;
 use Support\Traits\Models\HasThumbnail;
 
+/**
+ * @method  static Brand|BrandQueryBuilder query()
+ */
 class Brand extends Model
 {
     use HasFactory;
@@ -31,12 +34,9 @@ class Brand extends Model
     ];
 
 
-
-    public function scopeHomePage(Builder $query)
+    public function newEloquentBuilder($query)
     {
-        $query->where('on_home_page', 1)
-            ->orderBy('sorting')
-            ->limit(6);
+        return new BrandQueryBuilder($query);
     }
 
     protected function thumbnailDir(): string
