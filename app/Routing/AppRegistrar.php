@@ -20,7 +20,7 @@ class AppRegistrar implements RouteRegistrar
             Route::get('/storage/images/{dir}/{method}/{size}/{file}', ThumbnailController::class)
             ->where('method', 'resize|crop|fit')
             ->where('size', '\d+x\d+')
-            ->where('file', '.+\.(png|jpg|gif|bmp|jpeg)')
+            ->where('file', '.+\.(png|jpg|gif|bmp|jpeg)$')
             ->name('thumbnail');
 
         });
