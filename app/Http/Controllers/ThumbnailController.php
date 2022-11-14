@@ -16,6 +16,8 @@ class ThumbnailController extends Controller
           string $file
     )
     {
+        \Debugbar::addMessage('ThumbnailController', __FILE__ . ':' . __LINE__);
+
         abort_if(
             !in_array($size, config('thumbnail.allowed_sizes')),
             403,
