@@ -11,7 +11,6 @@ class HomeController extends Controller
 {
     public function __invoke()
     {
-    \Debugbar::addMessage('HomeController', __FILE__ . ':' . __LINE__);
 
         $categories = CategoryViewModel::make()
             ->homePage();
