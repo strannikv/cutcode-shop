@@ -26,7 +26,7 @@ class SignUpControllerTest extends TestCase
         parent::setUp();
 
         $this->request = SignUpFormRequest::factory()->create([
-            'email' => 'testing@cutcode.ru',
+            'email' => 'testing@gmail.com',
             'password' => '1234567890',
             'password_confirmation' => '1234567890'
         ]);

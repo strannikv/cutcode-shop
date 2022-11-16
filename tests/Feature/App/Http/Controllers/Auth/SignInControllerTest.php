@@ -33,7 +33,7 @@ class SignInControllerTest extends TestCase
         $password = '123456789';
 
         $user = UserFactory::new()->create([
-            'email' => 'testing@cutcode.ru',
+            'email' => 'testing@gmail.com',
             'password' => bcrypt($password)
         ]);
 
@@ -75,7 +75,7 @@ class SignInControllerTest extends TestCase
     public function it_logout_success(): void
     {
         $user = UserFactory::new()->create([
-            'email' => 'testing@cutcode.ru',
+            'email' => 'testing@gmail.com',
         ]);
 
         $this->actingAs($user)

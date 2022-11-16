@@ -16,7 +16,7 @@ class ForgotPasswordControllerTest extends TestCase
     private function testingCredentials(): array
     {
         return [
-            'email' => 'testing@cutcode.ru'
+            'email' => 'testing@gmail.com'
         ];
     }
 
