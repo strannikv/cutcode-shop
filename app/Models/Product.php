@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
+use Laravel\Scout\Searchable;
 use Support\PriceCast;
 use Support\Traits\Models\HasSlug;
 use Support\Traits\Models\HasThumbnail;
@@ -18,6 +21,16 @@ class Product extends Model
     use HasFactory;
     use HasSlug;
     use HasThumbnail;
+    use Searchable;
+
+    #[SearchUsingFullText(['title', 'text'])]
+    public function toSearchableArray(): array
+    {
+       return [
+           'title' => $this->title,
+           'text' => $this->text,
+       ];
+    }
 
     protected $fillable = [
         'slug',
@@ -27,6 +40,7 @@ class Product extends Model
         'thumbnail',
         'sorting',
         'on_home_page',
+        'text'
     ];
 
 
