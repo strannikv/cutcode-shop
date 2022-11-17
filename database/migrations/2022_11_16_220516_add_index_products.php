@@ -8,8 +8,11 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->fullText('title');
-            $table->text('text')->nullable()->fulltext();
+
+            $table->text('text')
+                ->nullable();
+
+            $table->fullText(['title', 'text']);
         });
     }
 

@@ -23,15 +23,6 @@ class Product extends Model
     use HasThumbnail;
     use Searchable;
 
-    #[SearchUsingFullText(['title', 'text'])]
-    public function toSearchableArray(): array
-    {
-       return [
-           'title' => $this->title,
-           'text' => $this->text,
-       ];
-    }
-
     protected $fillable = [
         'slug',
         'title',
@@ -42,7 +33,6 @@ class Product extends Model
         'on_home_page',
         'text'
     ];
-
 
     protected function thumbnailDir(): string
     {
