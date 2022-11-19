@@ -3,18 +3,19 @@
 namespace Domain\Catalog\Filters;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Stringable;
 
-abstract class AbstractFilter
+abstract class AbstractFilter implements Stringable
 {
     abstract public function title():string;
 
     abstract public function key():string;
 
-    abstract public function aply(Builder $query):Builder;
+    abstract public function apply(Builder $query):Builder;
 
     abstract public function values():array;
 
-    abstract public function views():string;
+    abstract public function view():string;
 
     public function requestValue(string $index = null, mixed $default = null):mixed
     {
@@ -44,9 +45,12 @@ abstract class AbstractFilter
     }
 
 
-
-
-
+    public function __toString(): string
+    {
+        return view($this->view(), [
+            'filter' => $this
+        ])->render();
+    }
 
 
 }

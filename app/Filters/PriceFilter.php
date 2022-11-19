@@ -18,7 +18,7 @@ class PriceFilter extends AbstractFilter
         return 'price';
     }
 
-    public function aply(Builder $query): Builder
+    public function apply(Builder $query): Builder
     {
         return $query->when($this->requestValue(), function (Builder $q){
             $q->whereBetween('price', [
@@ -36,7 +36,7 @@ class PriceFilter extends AbstractFilter
         ];
     }
 
-    public function views(): string
+    public function view(): string
     {
        return 'catalog.filters.price';
     }

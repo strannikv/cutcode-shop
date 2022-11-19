@@ -39,7 +39,8 @@
                     <!-- Filter item -->
 
                     @foreach(filters() as $filter)
-                        @include($filter->views(), ['$filter' => $filter])
+{{--                        @include($filter->views(), ['$filter' => $filter])--}}
+                        {!! $filter !!}
                     @endforeach
 
                     <!-- Filter item -->
