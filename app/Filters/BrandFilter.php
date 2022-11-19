@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use Domain\Catalog\Filters\AbstractFilter;
+use Domain\Catalog\Models\Brand;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class BrandFilter extends AbstractFilter
@@ -27,14 +28,16 @@ class BrandFilter extends AbstractFilter
 
     public function values(): array
     {
-        return [
-            'from' => 0,
-            'to' => 10000,
-        ];
+        return Brand::query()
+            ->select('id', 'title')
+            ->has('products')
+            ->get()
+            ->pluck('title', 'id')
+            ->toArray();
     }
 
     public function view(): string
     {
-       return 'catalog.filters.price';
+       return 'catalog.filters.brands';
     }
 }

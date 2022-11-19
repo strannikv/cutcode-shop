@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Filters\BrandFilter;
 use App\Filters\PriceFilter;
 use App\Menu\Menu;
 use App\Menu\MenuItem;
@@ -20,7 +21,8 @@ class CatalogServiceProvider extends ServiceProvider
     public function boot()
     {
         app(FilterManager::class)->registerFilters([
-            new PriceFilter()
+            new PriceFilter(),
+            new BrandFilter(),
         ]);
     }
 }
