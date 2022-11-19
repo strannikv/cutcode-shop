@@ -8,6 +8,7 @@ use Domain\Catalog\QueryBuilders\BrandQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Support\Traits\Models\HasSlug;
 use Support\Traits\Models\HasThumbnail;
 
@@ -47,6 +48,15 @@ class Brand extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            Cache::delete('brand_home_page');
+        });
     }
 
 
