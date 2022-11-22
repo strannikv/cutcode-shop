@@ -15,7 +15,7 @@
             <!-- Main product -->
             <section class="flex flex-col lg:flex-row gap-10 xl:gap-14 2xl:gap-20 mt-12">
 
-                <div class="basis-full lg:basis-2/5 xl:basis-2/4">
+                <div class="basis-full lg:basis-2/5 xl:basis-2/4" style="margin-right: 20px;">
                     <div class="overflow-hidden h-auto max-h-[620px] lg:h-[480px] xl:h-[620px] rounded-3xl">
                         <img src="{{ $product->makeThumbnail('345x320') }}" class="object-cover w-full h-full" alt="{{ $product->title }}">
                     </div>
@@ -61,7 +61,6 @@
 
                         <ul class="sm:max-w-[360px] space-y-2 mt-8">
                             @foreach($product->properties as $property)
-
 
                             <li class="flex justify-between text-body">
                                 <strong>{{ $property->title }}</strong> {{ $property->pivot->value }}</li>

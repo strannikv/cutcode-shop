@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use App\Models\Product;
 use Database\Factories\BrandFactory;
 use Database\Factories\CategoryFactory;
+use Database\Factories\OptionFactory;
+use Database\Factories\OptionValueFactory;
 use Database\Factories\PropertyFactory;
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
@@ -20,23 +22,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       BrandFactory::new()->count(20)->create();
+        BrandFactory::new()->count(20)->create();
 
-       $properties = PropertyFactory::new()->count(10)->create();
+        $properties = PropertyFactory::new()->count(10)->create();
 
-//       Product::factory(20)
-//           ->has(Category::factory(rand(1,3)))
-//           ->create();
+        OptionFactory::new()->count(2)->create();
+
+        $optionValues = OptionValueFactory::new()->count(10)->create();
 
         CategoryFactory::new()->count(10)
             ->has(
                 Product::factory(10)
-                ->hasAttached($properties, function (){
-                    return ['value' => ucfirst(fake()->word())];
-                })
+                    ->hasAttached($optionValues)
+                    ->hasAttached($properties, function () {
+                        return ['value' => ucfirst(fake()->word())];
+                    })
             )
             ->create();
-
-
     }
 }
