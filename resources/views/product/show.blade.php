@@ -60,7 +60,13 @@
                         </div>
 
                         <ul class="sm:max-w-[360px] space-y-2 mt-8">
-                            <li class="flex justify-between text-body"><strong>Вес (г):</strong> 92</li>
+                            @foreach($product->properties as $property)
+
+
+                            <li class="flex justify-between text-body">
+                                <strong>{{ $property->title }}</strong> {{ $property->pivot->value }}</li>
+
+                            @endforeach
                         </ul>
 
                         <!-- Add to cart -->
