@@ -12,8 +12,6 @@ class CatalogController extends Controller
 {
     public function __invoke(?Category $category)
     {
-
-
         $categories = Category::query()
             ->select('id', 'title', 'slug')
             ->has('products')

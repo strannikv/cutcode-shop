@@ -5,6 +5,7 @@ namespace App\Routing;
 use App\Contracts\RouteRegistrar;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ThumbnailController;
+use App\Http\Middleware\CatalogViewMiddleware;
 use Domain\Catalog\Collections\CategoryCollection;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,9 @@ class AppRegistrar implements RouteRegistrar
 
             Route::get('/', HomeController::class)->name('home');
 
-            Route::get('/catalog/{category:slug?}', CatalogController::class)->name('catalog');
+            Route::get('/catalog/{category:slug?}', CatalogController::class)
+                ->middleware(CatalogViewMiddleware::class)
+                ->name('catalog');
 
             Route::get('/storage/images/{dir}/{method}/{size}/{file}', ThumbnailController::class)
             ->where('method', 'resize|crop|fit')

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Domain\Catalog\Facades\Sorter;
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -10,8 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Pipeline\Pipeline;
-use Laravel\Scout\Attributes\SearchUsingFullText;
-use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
 use Support\PriceCast;
 use Support\Traits\Models\HasSlug;
@@ -67,17 +66,17 @@ class Product extends Model
 
     public function scopeSorted(Builder $query)
     {
-        $query->when(request('sort'), function (Builder $q){
-            $column = request()->str('sort');
+//        $query->when(request('sort'), function (Builder $q){
+//            $column = request()->str('sort');
+//
+//            if ($column->contains(['price', 'title'])){
+//                $direction = $column->contains('-') ? 'DESC' : 'ASC';
+//
+//                $q->orderBy((string) $column->remove('-'), $direction);
+//            }
+//        });
 
-            if ($column->contains(['price', 'title'])){
-                $direction = $column->contains('-') ? 'DESC' : 'ASC';
-
-                $q->orderBy((string) $column->remove('-'), $direction);
-            }
-
-
-        });
+        Sorter::run($query);
     }
 
 
