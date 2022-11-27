@@ -106,24 +106,20 @@ class Product extends Model
     }
 
 
-    protected static function boot() {
-            parent::boot();
+    protected static function boot()
+    {
+        parent::boot();
 
-            static::created(function (Product $product) {
-
-                ProductJsonProperties::dispatch($product)
+        static::created(function (Product $product) {
+            ProductJsonProperties::dispatch($product)
                 ->delay(10);
-            });
+        });
 
-//            static::updated(function (Product $model) {
-//
-//                ProductJsonProperties::dispatch($model)
-//                ->delay(10);
-//            });
-
-
-        }
-
+        static::updated(function (Product $model) {
+            ProductJsonProperties::dispatch($model)
+                ->delay(10);
+        });
+    }
 
 
 }
