@@ -13,6 +13,8 @@ class ProductFactory extends Factory
 {
     public function definition(): array
     {
+        BrandFactory::new()->create();
+
         return [
             'title' => ucfirst($this->faker->words(2, true)),
             'brand_id' => Brand::query()->inRandomOrder()->value('id'),
