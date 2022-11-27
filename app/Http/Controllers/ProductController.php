@@ -19,9 +19,15 @@ class ProductController extends Controller
 
         session()->put('also.'.$product->id, $product->id);
 
+        $alsoProducts = Product::whereIn('id', array_values(session()->get('also')))
+        ->where('id', '<>', $product->id)
+        ->get();
+
+
         return view('product.show', [
             'product' => $product,
             'options' => $options,
+            'alsoProducts' => $alsoProducts,
         ]);
     }
 }
