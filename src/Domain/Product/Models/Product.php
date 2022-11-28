@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Product\Models;
 
 use App\Jobs\ProductJsonProperties;
+use Database\Factories\ProductFactory;
 use Domain\Catalog\Facades\Sorter;
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
@@ -119,6 +120,12 @@ class Product extends Model
             ProductJsonProperties::dispatch($model)
                 ->delay(10);
         });
+    }
+
+
+    protected static function newFactory()
+    {
+        return ProductFactory::new();
     }
 
 

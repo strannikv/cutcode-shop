@@ -2,7 +2,6 @@
 
 namespace Domain\Catalog\Models;
 
-use App\Models\Product;
 use Database\Factories\BrandFactory;
 use Domain\Catalog\QueryBuilders\BrandQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,7 +46,7 @@ class Brand extends Model
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(\Domain\Product\Models\Product::class);
     }
 
     protected static function boot()
