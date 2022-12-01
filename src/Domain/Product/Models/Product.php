@@ -56,13 +56,6 @@ class Product extends Model
     }
 
 
-//    public function scopeHomePage(Builder $query)
-//    {
-//        $query->where('on_home_page', 1)
-//            ->orderBy('sorting')
-//            ->limit(6);
-//    }
-
     public function scopeFiltered(Builder $query)
     {
         return app(Pipeline::class)
@@ -75,20 +68,20 @@ class Product extends Model
 //        }
     }
 
-    public function scopeSorted(Builder $query)
-    {
-//        $query->when(request('sort'), function (Builder $q){
-//            $column = request()->str('sort');
+//    public function scopeSorted(Builder $query)
+//    {
+////        $query->when(request('sort'), function (Builder $q){
+////            $column = request()->str('sort');
+////
+////            if ($column->contains(['price', 'title'])){
+////                $direction = $column->contains('-') ? 'DESC' : 'ASC';
+////
+////                $q->orderBy((string) $column->remove('-'), $direction);
+////            }
+////        });
 //
-//            if ($column->contains(['price', 'title'])){
-//                $direction = $column->contains('-') ? 'DESC' : 'ASC';
-//
-//                $q->orderBy((string) $column->remove('-'), $direction);
-//            }
-//        });
-
-        Sorter::run($query);
-    }
+//        Sorter::run($query);
+//    }
 
 
     public function brand(): BelongsTo
