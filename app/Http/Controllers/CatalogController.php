@@ -20,14 +20,7 @@ class CatalogController extends Controller
             ->when(request('s'), function (Builder $query) {
                 $query->whereFullText(['title', 'text'], request('s'));
             })
-            ->when($category->exists, function (Builder $query) use ($category) {
-                $query->whereRelation(
-                    'categories',
-                    'categories.id',
-                    '=',
-                    $category->id
-                );
-            })
+            ->withCategory($category)
             ->filtered()
             ->sorted()
             ->paginate(6);
