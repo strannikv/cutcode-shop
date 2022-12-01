@@ -13,10 +13,6 @@ class ProductController extends Controller
     {
         $product->load('optionValues.option');
 
-        $options = $product->optionValues->mapToGroups(function ($item){
-            return [$item->option->title => $item];
-        });
-
         session()->put('also.'.$product->id, $product->id);
 
         $alsoProducts = Product::whereIn('id', array_values(session()->get('also')))
@@ -26,7 +22,7 @@ class ProductController extends Controller
 
         return view('product.show', [
             'product' => $product,
-            'options' => $options,
+            'options' => $product->optionValues->keyValues(),
             'alsoProducts' => $alsoProducts,
         ]);
     }
