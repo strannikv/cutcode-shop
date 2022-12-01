@@ -7,6 +7,7 @@ use Database\Factories\ProductFactory;
 use Domain\Catalog\Facades\Sorter;
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
+use Domain\Product\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,12 +50,18 @@ class Product extends Model
     ];
 
 
-    public function scopeHomePage(Builder $query)
+    public function newEloquentBuilder($query)
     {
-        $query->where('on_home_page', 1)
-            ->orderBy('sorting')
-            ->limit(6);
+        return new ProductQueryBuilder($query);
     }
+
+
+//    public function scopeHomePage(Builder $query)
+//    {
+//        $query->where('on_home_page', 1)
+//            ->orderBy('sorting')
+//            ->limit(6);
+//    }
 
     public function scopeFiltered(Builder $query)
     {
