@@ -48,6 +48,14 @@ class ProductQueryBuilder extends Builder
     }
 
 
+    public function search()
+    {
+        return $this->when(request('s'), function (Builder $query) {
+            $query->whereFullText(['title', 'text'], request('s'));
+        });
+    }
+
+
     public function withCategory(Category $category)
     {
         return $this->when($category->exists, function (Builder $query) use ($category) {
