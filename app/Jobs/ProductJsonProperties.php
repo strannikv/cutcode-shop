@@ -21,29 +21,20 @@ class ProductJsonProperties implements ShouldQueue, ShouldBeUnique
      */
     public function __construct(
         public Product $product
-    )
-    {
-        //
+    ) {
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
-        $properties = $this->product->properties
-            ->mapWithKeys(fn($property) => [
-                $property->title => $property->pivot->value
-            ]);
-
-        $this->product->updateQuietly(['json_properties' => $properties]);
+        $properties = $this->product->properties->keyValues();
+        
+        $this->product->updateQuietly([
+            'json_properties' => $properties
+        ]);
     }
-
 
     public function uniqueId()
     {
-        return $this->product->id;
+        return $this->product->getKey();
     }
 }

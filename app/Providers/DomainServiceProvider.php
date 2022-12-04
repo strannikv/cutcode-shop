@@ -11,25 +11,22 @@ use Illuminate\Support\ServiceProvider;
 class DomainServiceProvider extends ServiceProvider
 {
 
-    public function register()
+    public function register(): void
     {
         $this->app->register(
-            AuthServiceProvider::class,
+            CartServiceProvider::class
         );
 
         $this->app->register(
-            CatalogServiceProvider::class,
+            ProductServiceProvider::class
         );
 
         $this->app->register(
-            ProductServiceProvider::class,
+            AuthServiceProvider::class
         );
-
         $this->app->register(
-            CartServiceProvider::class,
+            CatalogServiceProvider::class
         );
-
-
     }
 
 }

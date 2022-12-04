@@ -1,9 +1,10 @@
 <?php
 
+
 namespace Domain\Catalog\ViewModels;
 
-use App\Models\Brand;
-use Domain\Catalog\Models\Category;
+
+use Domain\Catalog\Models\Brand;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use Support\Traits\Makeable;
@@ -14,11 +15,10 @@ class BrandViewModel
 
     public function homePage(): Collection|array
     {
-        return Cache::rememberForever('brand_home_page', function(){
+        return Cache::rememberForever('brand_home_page', function () {
             return Brand::query()
                 ->homePage()
                 ->get();
         });
-
     }
 }

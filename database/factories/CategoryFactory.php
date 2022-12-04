@@ -6,7 +6,7 @@ use Domain\Catalog\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Category>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Catalog\Models\Category>
  */
 class CategoryFactory extends Factory
 {
@@ -16,7 +16,7 @@ class CategoryFactory extends Factory
     {
         return [
             'title' => ucfirst($this->faker->words(2, true)),
-            'on_home_page' => $this->faker->boolean(40),
+            'on_home_page' => $this->faker->boolean(),
             'sorting' => $this->faker->numberBetween(1, 999),
         ];
     }

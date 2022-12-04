@@ -14,24 +14,19 @@ use Illuminate\Support\Facades\Route;
 class AuthRegistrar implements RouteRegistrar
 {
 
-    public function map(Registrar $registrar)
+    public function map(Registrar $registrar): void
     {
         Route::middleware('web')->group(function () {
             Route::controller(SignInController::class)->group(function () {
-                Route::get('/login', 'page')
-                    ->name('login');
-
+                Route::get('/login', 'page')->name('login');
                 Route::post('/login', 'handle')
                     ->middleware('throttle:auth')
                     ->name('login.handle');
-
-                Route::delete('/logout', 'logOut')
-                    ->name('logOut');
+                Route::delete('/logout', 'logOut')->name('logOut');
             });
 
             Route::controller(SignUpController::class)->group(function () {
-                Route::get('/sign-up', 'page')
-                    ->name('register');
+                Route::get('/sign-up', 'page')->name('register');
 
                 Route::post('/sign-up', 'handle')
                     ->middleware('throttle:auth')
@@ -57,7 +52,6 @@ class AuthRegistrar implements RouteRegistrar
                     ->middleware('guest')
                     ->name('password-reset.handle');
             });
-
             Route::controller(SocialAuthController::class)->group(function () {
                 Route::get('/auth/socialite/{driver}', 'redirect')
                     ->name('socialite.redirect');

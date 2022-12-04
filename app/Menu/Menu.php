@@ -1,8 +1,8 @@
 <?php
 
-declare(strict_types=1);
 
 namespace App\Menu;
+
 
 use Countable;
 use Illuminate\Support\Collection;
@@ -10,7 +10,7 @@ use IteratorAggregate;
 use Support\Traits\Makeable;
 use Traversable;
 
-final class Menu implements IteratorAggregate, Countable
+class Menu implements IteratorAggregate, Countable
 {
     use Makeable;
 
@@ -35,10 +35,9 @@ final class Menu implements IteratorAggregate, Countable
 
     public function addIf(bool|callable $condition, MenuItem $item): self
     {
-        if(is_callable($condition) ? $condition() : $condition) {
+        if (is_callable($condition) ? $condition() : $condition) {
             $this->items[] = $item;
         }
-
         return $this;
     }
 
@@ -47,7 +46,6 @@ final class Menu implements IteratorAggregate, Countable
         $this->items = $this->all()
             ->filter(fn(MenuItem $current) => $item !== $current)
             ->toArray();
-
         return $this;
     }
 
@@ -56,7 +54,6 @@ final class Menu implements IteratorAggregate, Countable
         $this->items = $this->all()
             ->filter(fn(MenuItem $current) => $link !== $current->link())
             ->toArray();
-
         return $this;
     }
 

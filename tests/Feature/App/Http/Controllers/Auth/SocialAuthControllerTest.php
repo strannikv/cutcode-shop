@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\SocialAuthController;
+namespace App\Http\Controllers\Auth;
+
 use Database\Factories\UserFactory;
 use DomainException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,7 +18,7 @@ class SocialAuthControllerTest extends TestCase
 
     private function mockSocialiteCallback(string|int $githubId): MockInterface
     {
-        $user = $this->mock(SocialiteUser::class, function (MockInterface $m) use($githubId) {
+        $user = $this->mock(SocialiteUser::class, function (MockInterface $m) use ($githubId) {
             $m->shouldReceive('getId')
                 ->once()
                 ->andReturn($githubId);
@@ -29,7 +29,7 @@ class SocialAuthControllerTest extends TestCase
 
             $m->shouldReceive('getEmail')
                 ->once()
-                ->andReturn('testing@gmail.com');
+                ->andReturn('sergey_bobkov@inbox.ru');
         });
 
         Socialite::shouldReceive('driver->user')
@@ -138,5 +138,4 @@ class SocialAuthControllerTest extends TestCase
 
         $this->assertAuthenticated();
     }
-
 }

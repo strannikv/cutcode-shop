@@ -1,62 +1,48 @@
 <?php
 
+
 namespace Domain\Product\QueryBuilders;
+
 
 use Domain\Catalog\Facades\Sorter;
 use Domain\Catalog\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
 
+
 class ProductQueryBuilder extends Builder
 {
-
-    public function homePage()
+    public function homePage(): ProductQueryBuilder
     {
-        return $this->where('on_home_page', 1)
+        return $this->where('on_home_page', true)
             ->orderBy('sorting')
             ->limit(6);
     }
 
-
-//    public function filtered()
-//    {
-////        return app(Pipeline::class)
-////            ->send($this)
-////            ->through(filters())
-////            ->thenReturn();
-//
-//        foreach (filters() as $filter) {
-//            $query = $filter->apply($this);
-//        }
-//    }
-
-
-    public function sorted()
+    public function filtered(): ProductQueryBuilder
     {
-        return Sorter::run($this);
-
-//        return $this->when(request('sort'), function (Builder $q){
-//            $column = request()->str('sort');
-//
-//            if ($column->contains(['price', 'title'])){
-//                $direction = $column->contains('-') ? 'DESC' : 'ASC';
-//
-//                $q->orderBy((string) $column->remove('-'), $direction);
-//            }
-//        });
-
+        /*foreach (filters() as $filter) {
+            $query = $filter->apply($query);
+        }*/
+        return app(Pipeline::class)
+            ->send($this)
+            ->through(filters())
+            ->thenReturn();
     }
 
+    public function sorted(): Builder|ProductQueryBuilder
+    {
+        return Sorter::run($this);
+    }
 
-    public function search()
+    public function search(): ProductQueryBuilder
     {
         return $this->when(request('s'), function (Builder $query) {
             $query->whereFullText(['title', 'text'], request('s'));
         });
     }
 
-
-    public function withCategory(Category $category)
+    public function withCategory(Category $category): ProductQueryBuilder
     {
         return $this->when($category->exists, function (Builder $query) use ($category) {
             $query->whereRelation(

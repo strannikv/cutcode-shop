@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Domain\Product\Models\Option;
+use Domain\Product\Models\OptionValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class OptionValueFactory extends Factory
 {
+    protected $model = OptionValue::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,7 +22,7 @@ class OptionValueFactory extends Factory
     {
         return [
             'title' => ucfirst($this->faker->word()),
-            'option_id' => Option::query()->inRandomOrder()->value('id')
+            'option_id' => Option::query()->inRandomOrder()->value('id'),
         ];
     }
 }

@@ -3,6 +3,6 @@
 return [
     'allowed_sizes' => [
         '345x320',
-        '70x70',
+        '70x70'
     ]
 ];

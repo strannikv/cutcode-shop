@@ -13,25 +13,12 @@ if (!function_exists('cart')) {
     }
 }
 
-
-if (!function_exists('flash')) {
-    function flash(): Flash
-    {
-        return app(Flash::class);
-    }
-}
-
-
 if (!function_exists('sorter')) {
     function sorter(): Sorter
     {
         return app(Sorter::class);
     }
 }
-
-
-
-
 
 if (!function_exists('filters')) {
     function filters(): array
@@ -40,13 +27,19 @@ if (!function_exists('filters')) {
     }
 }
 
+if (!function_exists('flash')) {
+    function flash(): Flash
+    {
+        return app(Flash::class);
+    }
+}
+
 if (!function_exists('is_catalog_view')) {
-    function is_catalog_view(string $type, string $default = 'grind'): bool
+    function is_catalog_view(string $type, string $default = 'grid'): bool
     {
         return session('view', $default) === $type;
     }
 }
-
 
 if (!function_exists('filter_url')) {
     function filter_url(?Category $category, array $params = []): string
@@ -58,16 +51,5 @@ if (!function_exists('filter_url')) {
         ]);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -1,20 +1,19 @@
 <?php
 
-declare(strict_types=1);
 
 namespace App\Menu;
 
+
 use Support\Traits\Makeable;
 
-final class MenuItem
+class MenuItem
 {
     use Makeable;
 
     public function __construct(
         protected string $link,
-        protected string $label,
-    )
-    {
+        protected string $label
+    ) {
     }
 
     public function link(): string
@@ -31,10 +30,11 @@ final class MenuItem
     {
         $path = parse_url($this->link(), PHP_URL_PATH) ?? '/';
 
-        if($path === '/') {
+        if ($path === '/') {
             return request()->path() === $path;
         }
 
         return request()->fullUrlIs($this->link() . '*');
     }
+
 }

@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Filters;
+
 
 use Domain\Catalog\Filters\AbstractFilter;
 use Domain\Catalog\Models\Brand;
@@ -21,7 +23,7 @@ class BrandFilter extends AbstractFilter
 
     public function apply(Builder $query): Builder
     {
-        return $query->when($this->requestValue(), function (Builder $q){
+        return $query->when($this->requestValue(), function (Builder $q) {
             $q->whereIn('brand_id', $this->requestValue());
         });
     }
@@ -29,8 +31,8 @@ class BrandFilter extends AbstractFilter
     public function values(): array
     {
         return Brand::query()
-            ->select('id', 'title')
-            ->has('products')
+            ->select(['id', 'title'])
+            ->has('products') // select records than have products
             ->get()
             ->pluck('title', 'id')
             ->toArray();
@@ -38,6 +40,6 @@ class BrandFilter extends AbstractFilter
 
     public function view(): string
     {
-       return 'catalog.filters.brands';
+        return 'catalog.filters.brands';
     }
 }

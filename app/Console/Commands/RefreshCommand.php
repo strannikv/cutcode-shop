@@ -10,9 +10,7 @@ class RefreshCommand extends Command
 
     protected $signature = 'shop:refresh';
 
-
     protected $description = 'Refresh';
-
 
     public function handle(): int
     {
@@ -20,14 +18,15 @@ class RefreshCommand extends Command
             return self::FAILURE;
         }
 
-        Storage::deleteDirectory('products');
-        Storage::deleteDirectory('brands');
-
         $this->call('cache:clear');
 
+        Storage::deleteDirectory('images/products');
+        Storage::deleteDirectory('images/brands');
+
         $this->call('migrate:fresh', [
-            '--seed' => true,
+            '--seed' => true
         ]);
+
 
         return self::SUCCESS;
     }

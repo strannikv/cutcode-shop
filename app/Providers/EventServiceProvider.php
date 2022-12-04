@@ -18,8 +18,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-//            SendEmailVerificationNotification::class,
-            SendEmailNewUserListener::class,
+            //SendEmailVerificationNotification::class,
+            SendEmailNewUserListener::class
         ],
     ];
 
@@ -28,12 +28,12 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(): void
+    public function boot()
     {
         Event::listen(AfterSessionRegenerated::class, function (AfterSessionRegenerated $event) {
             app(CartManager::class)->updateStorageId(
                 $event->old,
-                $event->current,
+                $event->current
             );
         });
     }

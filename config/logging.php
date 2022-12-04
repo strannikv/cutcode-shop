@@ -3,7 +3,7 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
-use Support\Loging\Telegram\TelegramLoggerFactory;
+use Support\Logging\Telegram\TelegramLoggerFactory;
 
 return [
 
@@ -86,7 +86,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
         ],
 
@@ -118,13 +118,12 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
-
         'telegram' => [
             'driver' => 'custom',
             'via' => TelegramLoggerFactory::class,
-            'chat_id' => env('LOGGER_TELEGRAM_BOT_CHAT_ID'),
-            'token' => env('LOGGER_TELEGRAM_BOT_TOKEN', ''),
-            'level' => env('LOG_LEVEL', 'debug', ''),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'chat_id' => env('LOGGER_TELEGRAM_BOT_CHAT_ID', ''),
+            'token' => env('LOGGER_TELEGRAM_BOT_TOKEN', '')
         ],
     ],
 

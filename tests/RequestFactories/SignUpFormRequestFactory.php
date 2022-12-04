@@ -9,9 +9,9 @@ class SignUpFormRequestFactory extends RequestFactory
     public function definition(): array
     {
         return [
-           'email' => $this->faker->email,
-           'name' => $this->faker->name,
-           'password' => $this->faker->password(8),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email,
+            'password' => $this->faker()->password(9),
         ];
     }
 }

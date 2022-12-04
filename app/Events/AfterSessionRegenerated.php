@@ -10,11 +10,12 @@ class AfterSessionRegenerated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+
     public function __construct(
         public string $old,
-        public string $current,
-    )
-    {}
-
+        public string $current
+    ) {
+        //
+    }
 
 }

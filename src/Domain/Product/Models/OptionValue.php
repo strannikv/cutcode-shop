@@ -13,19 +13,16 @@ class OptionValue extends Model
 
     protected $fillable = [
         'title',
-        'option_id',
+        'option_id'
     ];
-
 
     public function newCollection(array $models = []): OptionValueCollection
     {
         return new OptionValueCollection($models);
     }
 
-
     public function option(): BelongsTo
     {
         return $this->belongsTo(Option::class);
     }
-
 }

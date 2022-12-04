@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\ForgotPasswordController;
+namespace App\Http\Controllers\Auth;
+
 use Database\Factories\UserFactory;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +16,7 @@ class ForgotPasswordControllerTest extends TestCase
     private function testingCredentials(): array
     {
         return [
-            'email' => 'testing@gmail.com'
+            'email' => 'testing@cutcode.ru'
         ];
     }
 

@@ -1,6 +1,8 @@
 <?php
 
+
 namespace Domain\Cart\StorageIdentities;
+
 
 use Domain\Cart\Contracts\CartIdentityStorageContract;
 

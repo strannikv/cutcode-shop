@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 class CatalogServiceProvider extends ServiceProvider
 {
+
     public function register()
     {
         $this->app->singleton(FilterManager::class);
@@ -19,10 +20,10 @@ class CatalogServiceProvider extends ServiceProvider
     {
         app(FilterManager::class)->registerFilters([
             new PriceFilter(),
-            new BrandFilter(),
+            new BrandFilter()
         ]);
 
-        $this->app->bind(Sorter::class, function (){
+        $this->app->bind(Sorter::class, function () {
             return new Sorter([
                 'title',
                 'price'

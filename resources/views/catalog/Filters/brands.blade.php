@@ -4,10 +4,10 @@
     @foreach($filter->values() as $id => $label)
         <div class="form-checkbox">
             <input name="{{ $filter->name($id) }}"
+                   id="{{ $filter->id($id) }}"
                    type="checkbox"
                    value="{{ $id }}"
-                   @checked($filter->requestValue($id))
-                   id="{{ $filter->id($id) }}"
+                @checked($filter->requestValue($id))
             >
 
             <label for="{{ $filter->id($id) }}" class="form-checkbox-label">

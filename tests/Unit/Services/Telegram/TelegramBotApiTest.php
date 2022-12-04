@@ -1,22 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Tests\Unit\Services\Telegram;
+namespace Services\Telegram;
 
 use Illuminate\Support\Facades\Http;
-use Services\Telegram\TelegramBotApi;
-use Services\Telegram\TelegramBotApiContract;
-use Support\ValueObjects\Price;
 use Tests\TestCase;
 
-final class TelegramBotApiTest extends TestCase
+class TelegramBotApiTest extends TestCase
 {
     /**
      * @test
      * @return void
      */
-    public function it_send_message_success_by_http_fake(): void
+    public function it_send_message_success(): void
     {
         Http::fake([
             TelegramBotApi::HOST . '*' => Http::response(['ok' => true])
@@ -26,7 +21,6 @@ final class TelegramBotApiTest extends TestCase
 
         $this->assertTrue($result);
     }
-
 
     /**
      * @test
@@ -55,5 +49,4 @@ final class TelegramBotApiTest extends TestCase
 
         $this->assertFalse($result);
     }
-
 }

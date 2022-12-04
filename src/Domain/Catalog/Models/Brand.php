@@ -2,17 +2,16 @@
 
 namespace Domain\Catalog\Models;
 
-use Database\Factories\BrandFactory;
 use Domain\Catalog\QueryBuilders\BrandQueryBuilder;
+use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Cache;
-use Support\Traits\Models\HasSlug;
-use Support\Traits\Models\HasThumbnail;
+use Support\Models\HasSlug;
+use Support\Models\HasThumbnail;
 
 /**
- * @method  static Brand|BrandQueryBuilder query()
+ * @method static Brand|BrandQueryBuilder query()
  */
 class Brand extends Model
 {
@@ -20,42 +19,27 @@ class Brand extends Model
     use HasSlug;
     use HasThumbnail;
 
-    protected static function newFactory()
-    {
-        return BrandFactory::new();
-    }
-
     protected $fillable = [
         'slug',
         'title',
         'thumbnail',
-        'sorting',
         'on_home_page',
+        'sorting'
     ];
-
-
-    public function newEloquentBuilder($query)
-    {
-        return new BrandQueryBuilder($query);
-    }
 
     protected function thumbnailDir(): string
     {
         return 'brands';
     }
 
-    public function products(): HasMany
+    public function newEloquentBuilder($query): BrandQueryBuilder
     {
-        return $this->hasMany(\Domain\Product\Models\Product::class);
+        return new BrandQueryBuilder($query);
     }
 
-    protected static function boot()
+    public function products(): HasMany
     {
-        parent::boot();
-
-        static::saving(function ($model) {
-            Cache::delete('brand_home_page');
-        });
+        return $this->hasMany(Product::class);
     }
 
 
