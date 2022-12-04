@@ -1,8 +1,18 @@
 <?php
 
+use Domain\Cart\CartManager;
 use Domain\Catalog\Filters\FilterManager;
 use Domain\Catalog\Models\Category;
+use Domain\Catalog\Sorters\Sorter;
 use Support\Flash\Flash;
+
+if (!function_exists('cart')) {
+    function cart(): CartManager
+    {
+        return app(CartManager::class);
+    }
+}
+
 
 if (!function_exists('flash')) {
     function flash(): Flash
@@ -10,6 +20,17 @@ if (!function_exists('flash')) {
         return app(Flash::class);
     }
 }
+
+
+if (!function_exists('sorter')) {
+    function sorter(): Sorter
+    {
+        return app(Sorter::class);
+    }
+}
+
+
+
 
 
 if (!function_exists('filters')) {
