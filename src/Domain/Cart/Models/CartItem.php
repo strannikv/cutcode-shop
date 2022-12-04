@@ -2,6 +2,7 @@
 
 namespace Domain\Cart\Models;
 
+use Domain\Product\Models\OptionValue;
 use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -48,7 +49,7 @@ class CartItem extends Model
 
     public function optionValues(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(OptionValue::class);
     }
 
 

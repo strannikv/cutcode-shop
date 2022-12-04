@@ -63,36 +63,7 @@ class CartManager
     }
 
 
-    public function add(Product $product, int $quantity = 1, array $optionValues): Model|Builder
-    {
-        $cart = Cart::query()
-            ->updateOrCreate(
-                [
-                    'storage_id' => $this->identityStorage->get()
-                ],
-                $this->storageData($this->identityStorage->get())
-            );
 
-
-        $cartItem = $cart->cartItems()
-            ->updateOrCreate(
-                [
-                    'product_id' => $product->getKey(),
-                    'string_option_values' => $this->stringedOptionValues($optionValues),
-                ],
-                [
-                    'price' => $product->price,
-                    'quantity' => DB::raw("quantity + $quantity"),
-                    'string_option_values' => $this->stringedOptionValues($optionValues),
-                ]
-            );
-
-        $cartItem->optionValues()->sync($optionValues);
-
-        $this->forgetCach();
-
-        return $cart;
-    }
 
 
     public function quantity(CartItem $item, int $quantity = 1): void
@@ -126,6 +97,20 @@ class CartManager
         return $this->get()?->cartItems ?? collect([]);
     }
 
+    public function items(): \Illuminate\Support\Collection
+    {
+        if (!$this->get()){
+            return collect([]);
+        }
+
+        return CartItem::query()
+            ->with(['product', 'optionValues.option'])
+            ->whereBelongsTo($this->get())
+            ->get();
+    }
+
+
+
 
     public function count(): int
     {
@@ -157,6 +142,38 @@ class CartManager
                 ))
                 ->first() ?? false;
         });
+    }
+
+
+    public function add(Product $product, int $quantity = 1, array $optionValues): Model|Builder
+    {
+        $cart = Cart::query()
+            ->updateOrCreate(
+                [
+                    'storage_id' => $this->identityStorage->get()
+                ],
+                $this->storageData($this->identityStorage->get())
+            );
+
+
+        $cartItem = $cart->cartItems()
+            ->updateOrCreate(
+                [
+                    'product_id' => $product->getKey(),
+                    'string_option_values' => $this->stringedOptionValues($optionValues),
+                ],
+                [
+                    'price' => $product->price,
+                    'quantity' => DB::raw("quantity + $quantity"),
+                    'string_option_values' => $this->stringedOptionValues($optionValues),
+                ]
+            );
+
+        $cartItem->optionValues()->sync($optionValues);
+
+        $this->forgetCach();
+
+        return $cart;
     }
 
 
