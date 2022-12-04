@@ -1,5 +1,5 @@
 @extends('layouts.app')
-{{ \Debugbar::addMessage('resources/views/catalog/index.blade.php', __FILE__ . ':' . __LINE__) }}
+
 @section('title', $category->title ?? 'Каталог')
 
 @section('content')

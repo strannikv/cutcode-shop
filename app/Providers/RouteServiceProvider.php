@@ -25,6 +25,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/';
 
     protected array $registrars = [
+        \App\Routing\CartRegistrar::class,
         AppRegistrar::class,
         AuthRegistrar::class,
         ProductRegistrar::class,
