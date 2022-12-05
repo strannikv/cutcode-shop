@@ -20,13 +20,16 @@ class SignInController extends Controller
 
     public function handle(SignInFormRequest $request): RedirectResponse
     {
-        if (!auth()->attempt($request->validated())) {
+//        if (!auth()->attempt($request->validated())) {
+        if (!auth()->once($request->validated())) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ])->onlyInput('email');
         }
 
-        SessionRegenerator::run();
+        SessionRegenerator::run(fn() => auth()->login(auth()->user()));
+
+//        $request->session()->regenerate();
 
         return redirect()
             ->intended(route('home'));
@@ -35,7 +38,7 @@ class SignInController extends Controller
     public function logOut(): RedirectResponse
     {
         SessionRegenerator::run(fn() => auth()->logout());
-        
+
         return redirect()->route('home');
     }
 
