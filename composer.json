@@ -16,6 +16,7 @@
         "laravel/socialite": "^5.5",
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
+        "lee-to/moonshine": "^1.15",
         "sentry/sentry-laravel": "^2.14",
         "spatie/laravel-view-models": "^1.5"
     },

@@ -202,8 +202,9 @@ return [
         ViewServiceProvider::class,
         TestingServiceProvider::class,
         DomainServiceProvider::class,
-        CatalogServiceProvider::class
+        CatalogServiceProvider::class,
 
+        App\Providers\MoonshineServiceProvider::class
     ],
 
     /*
